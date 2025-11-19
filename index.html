@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coffee Shop Website</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background: #4A2C2A;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .menu-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .item {
+        background: white;
+        width: 240px;
+        margin: 12px;
+        border-radius: 12px;
+        box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+        padding-bottom: 15px;
+        text-align: center;
+    }
+
+    .item img {
+        width: 100%;
+        height: 170px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        object-fit: cover;
+    }
+
+    .item h3 {
+        margin: 10px 0;
+    }
+
+    .add-btn {
+        background: #4A2C2A;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .add-btn:hover {
+        background: #6b3f3c;
+    }
+
+    #cart-section, #table-section {
+        background: white;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    table th, table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
+
+    #total {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 10px;
+    }
+
+    /* Chatbot */
+    #chat-icon {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #4A2C2A;
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        font-size: 30px;
+        line-height: 60px;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0px 3px 8px rgba(0,0,0,0.2);
+    }
+
+    #chat-box {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 300px;
+        max-height: 400px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    #chat-header {
+        background-color: #4A2C2A;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .message {
+        margin: 10px 0;
+        padding: 8px 12px;
+        border-radius: 12px;
+        max-width: 80%;
+    }
+
+    .user {
+        background-color: #DCF8C6;
+        align-self: flex-end;
+    }
+
+    .bot {
+        background-color: #EEE;
+        align-self: flex-start;
+    }
+
+    #chat-input {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+
+    #chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        outline: none;
+    }
+
+    #chat-input button {
+        background-color: #4A2C2A;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        cursor: pointer;
+    }
+
+    /* Table reservation */
+    .tables {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .table {
+        width: 60px;
+        height: 60px;
+        background: #ddd;
+        margin: 10px;
+        border-radius: 10px;
+        line-height: 60px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .table.selected {
+        background: #4A2C2A;
+        color: white;
+    }
+
+</style>
+</head>
+<body>
+
+<header>☕ Coffee Shop Ordering Website</header>
+
+<h2>Our Menu</h2>
+<div class="menu-container">
+    <div class="item">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" />
+        <h3>Latte - ₹120</h3>
+        <button class="add-btn" onclick="addToCart('Latte', 120)">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348" />
+        <h3>Cappuccino - ₹140</h3>
+        <button class="add-btn" onclick="addToCart('Cappuccino', 140)">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81" />
+        <h3>Espresso - ₹100</h3>
+        <button class="add-btn" onclick="addToCart('Espresso', 100)">Add to Cart</button>
+    </div>
+    <div class="item">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93" />
+        <h3>Cold Coffee - ₹150</h3>
+        <button class="add-btn" onclick="addToCart('Cold Coffee', 150)">Add to Cart</button>
+    </div>
+</div>
+
+<!-- CART SECTION -->
+<div id="cart-section">
+    <h2>🛒 Your Cart</h2>
+    <table id="cartTable">
+        <tr>
+            <th>Item</th>
+            <th>Price (₹)</th>
+            <th>Qty</th>
+            <th>Remove</th>
+        </tr>
+    </table>
+    <div id="total">Total: ₹0</div>
+</div>
+
+<!-- TABLE RESERVATION -->
+<div id="table-section">
+    <h2>🪑 Reserve a Table</h2>
+    <div class="tables" id="tablesContainer">
+        <div class="table" onclick="selectTable(this)">1</div>
+        <div class="table" onclick="selectTable(this)">2</div>
+        <div class="table" onclick="selectTable(this)">3</div>
+        <div class="table" onclick="selectTable(this)">4</div>
+        <div class="table" onclick="selectTable(this)">5</div>
+        <div class="table" onclick="selectTable(this)">6</div>
+        <div class="table" onclick="selectTable(this)">7</div>
+        <div class="table" onclick="selectTable(this)">8</div>
+    </div>
+    <p id="selectedTable">Selected Table: None</p>
+</div>
+
+<!-- CHATBOT -->
+<div id="chat-icon">💬</div>
+<div id="chat-box">
+    <div id="chat-header">Chat with Us</div>
+    <div id="chat-messages"></div>
+    <div id="chat-input">
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    // CART FUNCTION
+    let cart = [];
+
+    function addToCart(name, price) {
+        let item = cart.find(c => c.name === name);
+        if (item) item.qty += 1;
+        else cart.push({name, price, qty: 1});
+        updateCart();
+    }
+
+    function removeItem(name) {
+        cart = cart.filter(i => i.name !== name);
+        updateCart();
+    }
+
+    function updateCart() {
+        const table = document.getElementById("cartTable");
+        table.innerHTML = `
+            <tr>
+                <th>Item</th>
+                <th>Price (₹)</th>
+                <th>Qty</th>
+                <th>Remove</th>
+            </tr>`;
+        let total = 0;
+        cart.forEach(item => {
+            total += item.price * item.qty;
+            table.innerHTML += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>${item.qty}</td>
+                    <td><button onclick="removeItem('${item.name}')">X</button></td>
+                </tr>`;
+        });
+        document.getElementById("total").innerText = Total: ₹${total};
+    }
+
+    // TABLE RESERVATION
+    let selected = null;
+    function selectTable(el) {
+        if (selected) selected.classList.remove('selected');
+        el.classList.add('selected');
+        selected = el;
+        document.getElementById('selectedTable').innerText = Selected Table: ${el.innerText};
+    }
+
+    // CHATBOT
+    const chatIcon = document.getElementById('chat-icon');
+    const chatBox = document.getElementById('chat-box');
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('userInput');
+
+    chatIcon.addEventListener('click', () => {
+        chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+        chatBox.style.flexDirection = 'column';
+    });
+
+    const botResponses = {
+        "hi": "Hello! How can I help you today?",
+        "hello": "Hi there! What can I do for you?",
+        "menu": "We have Latte, Cappuccino, Espresso, and Cold Coffee.",
+        "order": "You can add items to the cart from our menu above.",
+        "table": "You can reserve a table by clicking one in the Table section.",
+        "thanks": "You're welcome! Enjoy your coffee! 😊",
+        "bye": "Goodbye! Have a great day!"
+    };
+
+    function sendMessage() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        // user message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'message user';
+        userMsg.innerText = text;
+        chatMessages.appendChild(userMsg);
+
+        // bot message
+        let response = botResponses[text.toLowerCase()] || "Sorry, I didn't understand that.";
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot';
+        botMsg.innerText = response;
+        chatMessages.appendChild(botMsg);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        userInput.value = '';
+    }
+
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+
+</body>
+</html>
