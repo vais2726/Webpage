@@ -309,7 +309,7 @@
                     <td><button onclick="removeItem('${item.name}')">X</button></td>
                 </tr>`;
         });
-        document.getElementById("total").innerText = Total: ₹${total};
+        document.getElementById("total").innerText = `Total: ₹${total}`;
     }
 
     // TABLE RESERVATION
@@ -318,7 +318,7 @@
         if (selected) selected.classList.remove('selected');
         el.classList.add('selected');
         selected = el;
-        document.getElementById('selectedTable').innerText = Selected Table: ${el.innerText};
+        document.getElementById('selectedTable').innerText = `Selected Table: ${el.innerText}`;
     }
 
     // CHATBOT
@@ -352,7 +352,6 @@
         userMsg.innerText = text;
         chatMessages.appendChild(userMsg);
 
-
         // bot message
         let response = botResponses[text.toLowerCase()] || "Sorry, I didn't understand that.";
         const botMsg = document.createElement('div');
@@ -368,6 +367,7 @@
         if (e.key === 'Enter') sendMessage();
     });
 </script>
+
 
 </body>
 </html>
